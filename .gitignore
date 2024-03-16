@@ -117,3 +117,9 @@ terragrunt-debug.tfvars.json
 
 ## Ignore supabase access-token file
 **/access-token
+
+
+## Terragrunt-generated files
+_tg.*.tf
+*/.opentofu-version
+*/.terragrunt-version
