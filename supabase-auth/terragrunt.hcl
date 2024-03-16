@@ -7,3 +7,9 @@ generate "provider_supabase" {
   if_exists = "overwrite"
   contents = file("${get_parent_terragrunt_dir()}/meta/providers/supabase.tf")
 }
+
+locals {
+  common_vars = read_terragrunt_config(find_in_parent_folders("root.hcl"))
+}
+
+inputs = merge(local.common_vars.inputs, {})

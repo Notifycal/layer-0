@@ -4,7 +4,6 @@ resource "random_password" "db_password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-
 resource "supabase_project" "notifycal" {
   organization_id   = var.supabase_org_id
   name              = var.supabase_project
@@ -15,4 +14,11 @@ resource "supabase_project" "notifycal" {
     # An organisation cannot be changed after creation
     ignore_changes = [organization_id]
   }
+}
+
+resource "aws_ssm_parameter" "supabase_db_password" {
+  name        = "/providers/supabase/db_password"
+  description = "The PostgreSQL password for Supabase"
+  type        = "SecureString"
+  value       = random_password.db_password.result
 }
