@@ -1,0 +1,9 @@
+include "root" {
+  path = find_in_parent_folders()
+}
+
+generate "provider_supabase" {
+  path = "_tg.provider.supabase.tf"
+  if_exists = "overwrite"
+  contents = file("${get_parent_terragrunt_dir()}/meta/providers/supabase.tf")
+}
