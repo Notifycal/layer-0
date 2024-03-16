@@ -22,3 +22,17 @@ resource "aws_ssm_parameter" "supabase_db_password" {
   type        = "SecureString"
   value       = random_password.db_password.result
 }
+
+resource "aws_ssm_parameter" "supabase_organization_id" {
+  name        = "/providers/supabase/organization_id"
+  description = "Supabase organization ID"
+  type        = "String"
+  value       = var.supabase_org_id
+}
+
+resource "aws_ssm_parameter" "supabase_project_id" {
+  name        = "/providers/supabase/project_id"
+  description = "Supabase project ID"
+  type        = "String"
+  value       = supabase_project.notifycal.id
+}
