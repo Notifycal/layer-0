@@ -36,12 +36,14 @@ remote_state {
 generate "tofu_version" {
   path = ".opentofu-version"
   if_exists = "overwrite"
+  disable_signature = true
   contents = file("${get_parent_terragrunt_dir()}/.opentofu-version")
 }
 
 generate "tg_version" {
   path = ".terragrunt-version"
   if_exists = "overwrite"
+  disable_signature = true
   contents = file("${get_parent_terragrunt_dir()}/.terragrunt-version")
 }
 
@@ -58,4 +60,15 @@ generate "provider_aws" {
   path = "_tg.provider.aws.tf"
   if_exists = "overwrite"
   contents = file("${get_parent_terragrunt_dir()}/meta/providers/aws.tf")
+}
+
+
+terraform {
+  extra_arguments "use_tofu" {
+    commands  = ["plan", "apply"]
+    # arguments = []
+    env_vars = {
+      TERRAGRUNT_TFPATH = "tofu"
+    }
+  }
 }
