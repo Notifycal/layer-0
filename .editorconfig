@@ -10,6 +10,6 @@ insert_final_newline = true
 charset = utf-8
 indent_style = space
 
-[*.{tf,hcl}]
+[*.{tf,hcl,tfvars}]
 indent_style = space
 indent_size = 2
