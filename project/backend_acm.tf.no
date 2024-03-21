@@ -1,0 +1,37 @@
+resource "aws_acm_certificate" "eddi_api_cert" {
+  domain_name       = "api.${local.base_url}"
+  validation_method = "DNS"
+  subject_alternative_names = [
+    "blue.api.${local.base_url}",
+    "green.api.${local.base_url}"
+  ]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route53_record" "eddi_api_validation_cert" {
+  provider = aws.validate_cert
+
+  for_each = {
+    for dvo in aws_acm_certificate.eddi_api_cert.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = data.terraform_remote_state.dns.outputs.hosted_zone_id
+}
+
+# This tells terraform to cause the route53 validation to happen
+resource "aws_acm_certificate_validation" "eddi_api_validate_cert" {
+  certificate_arn         = aws_acm_certificate.eddi_api_cert.arn
+  validation_record_fqdns = [for record in aws_route53_record.eddi_api_validation_cert : record.fqdn]
+}
