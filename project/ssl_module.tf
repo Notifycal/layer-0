@@ -1,7 +1,5 @@
 module "notifycal_ssl" {
   source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v0.1.0"
-  
-  # source = "git@github.com:flexys/${local.module_repo_name}.git?ref=${local.module_version}"
 
   for_each = aws_route53_zone.primary
 
