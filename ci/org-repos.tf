@@ -1,8 +1,18 @@
 locals {
   exclude_repos = [
-    "test-webapp"
+    "test-webapp",
+    "tofu-module-",
+    "template-",
+    "docs-raw"
   ]
-  repos = setsubtract(data.github_repositories.all_repos.names, local.exclude_repos)
+  
+  # Filter out repos that match any regex in local.exclude_repos
+  repos = toset([
+    for repo in data.github_repositories.all_repos.names: repo if ! anytrue([
+      for excluded_repo in local.exclude_repos: length(regexall(excluded_repo, repo)) > 0
+    ])
+  ])
+
   include_branches = [
     "main",
     "master"
