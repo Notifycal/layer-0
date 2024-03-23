@@ -1,4 +1,4 @@
-resource "github_actions_secret" "dependabot_pat" {
+resource "github_dependabot_secret" "dependabot_pat" {
   # This is enabled for all repos by default
   for_each = toset(data.github_repositories.all_repos.names)
 
