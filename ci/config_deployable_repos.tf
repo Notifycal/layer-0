@@ -4,21 +4,19 @@ data "aws_ssm_parameter" "cicd_app_id" {
 
 data "aws_ssm_parameter" "cicd_app_secret" {
   name = "/providers/github/app/notifycal-ci-cd/app_secret"
-  # with_decryption = true
 }
 
 locals {
-  exclude_repos = [
-    "test-webapp",
-    "tofu-module-",
-    "template-",
-    "docs-raw"
+  # this array can be used to do partial matches too. ie: `tofu-module-`
+  include_repos = [
+    "docs-internal",
+    # infra repo goes here
   ]
   
-  # Filter out repos that match any regex in local.exclude_repos
+  # Keep repos that match any regex in local.include_repos
   repos = toset([
-    for repo in data.github_repositories.all_repos.names: repo if ! anytrue([
-      for excluded_repo in local.exclude_repos: length(regexall(excluded_repo, repo)) > 0
+    for repo in data.github_repositories.all_repos.names: repo if anytrue([
+      for included_repo in local.include_repos: length(regexall(included_repo, repo)) > 0
     ])
   ])
 
@@ -36,8 +34,7 @@ resource "github_actions_secret" "cicd_app_id" {
 
   repository       = each.value
   secret_name      = "NOTIFYCAL_CICD_APP_ID"
-  plaintext_value  = "860731"
-  # plaintext_value  = data.aws_ssm_parameter.cicd_app_id.value
+  plaintext_value  = data.aws_ssm_parameter.cicd_app_id.value
 }
 
 resource "github_actions_secret" "cicd_app_secret" {
@@ -59,6 +56,6 @@ resource "github_actions_secret" "iam_role_for_ci" {
 
 
 # Debugging purposes
-output "repos" {
+output "deployable_repos" {
   value = local.repos
 }
