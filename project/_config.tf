@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket         = "tofu-state-notifycal-r3h5d3gp"
-    dynamodb_table = "tofu-lock-notifycal-r3h5d3gp"
+    bucket         = "tofu-state-notifycal-layer-0"
+    dynamodb_table = "tofu-lock-notifycal-layer-0"
     encrypt        = true
     key            = "project/terraform.tfstate"
     region         = "eu-west-1"
