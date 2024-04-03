@@ -57,5 +57,5 @@ resource "github_actions_secret" "iam_role_for_ci" {
 
 # Debugging purposes
 output "deployable_repos" {
-  value = local.repos
+  value = toset(local.repos)
 }

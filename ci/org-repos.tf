@@ -10,5 +10,5 @@ data "github_repositories" "all_repos" {
 }
 
 output "all_org_repos" {
-  value = data.github_repositories.all_repos.names
+  value = toset(data.github_repositories.all_repos.names)
 }
