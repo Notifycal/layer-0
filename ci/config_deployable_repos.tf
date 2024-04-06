@@ -28,23 +28,6 @@ locals {
   oidc_repo_list = [for repo in setproduct(local.repos, local.include_branches): "${var.github_organization_name}/${repo[0]}:ref:refs/heads/${repo[1]}"]
 }
 
-## Github App secrets
-resource "github_actions_secret" "cicd_app_id" {
-  for_each = local.repos
-
-  repository       = each.value
-  secret_name      = "NOTIFYCAL_CICD_APP_ID"
-  plaintext_value  = data.aws_ssm_parameter.cicd_app_id.value
-}
-
-resource "github_actions_secret" "cicd_app_secret" {
-  for_each = local.repos
-
-  repository       = each.value
-  secret_name      = "NOTIFYCAL_CICD_APP_SECRET"
-  plaintext_value  = data.aws_ssm_parameter.cicd_app_secret.value
-}
-
 ## AWS IAM role name for CI/CD
 resource "github_actions_secret" "iam_role_for_ci" {
   for_each = local.repos
