@@ -10,6 +10,7 @@ locals {
   # this array can be used to do partial matches too. ie: `tofu-module-`
   include_repos = [
     "docs-internal",
+    "environments"
     # infra repo goes here
   ]
   

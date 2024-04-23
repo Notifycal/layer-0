@@ -6,7 +6,9 @@ locals {
   # this array can be used to do partial matches too. ie: `tofu-module-`
   include_tf_repos = [
     "docs-internal",
-    "static-landing"
+    "static-landing",
+    "backend",
+    "^environments$"    # strict match to avoid picking poc-environments
     # infra repo goes here
   ]
   
