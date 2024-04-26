@@ -7,12 +7,12 @@ variable "github_thumbprints" {
 }
 
 variable "role_name" {
-  type = string
+  type    = string
   default = "ci-role-oidc"
 }
 
 variable "role_description" {
-  type = string
+  type    = string
   default = "Role used by Github Actions to interact with AWS"
 }
 
@@ -28,11 +28,11 @@ variable "role_max_session_duration" {
 }
 
 variable "role_attach_policies" {
-  type = list(string)
-  description = "List of IAM Policy ARNs to attach to the CI role"
+  type        = map(string)
+  description = "Map of IAM Policy ARNs to attach to the CI role"
 }
 
 variable "dependabot_pat" {
-  type = string
+  type      = string
   sensitive = true
 }

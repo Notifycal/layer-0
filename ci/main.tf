@@ -1,5 +1,11 @@
+locals {
+  role_attach_policies = merge(var.role_attach_policies, {
+    iam_no_user_nor_group_access = aws_iam_policy.ci_iam_access.arn
+  })
+}
+
 resource "aws_iam_openid_connect_provider" "github" {
-  client_id_list = ["sts.amazonaws.com"]
+  client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = var.github_thumbprints
   url             = "https://token.actions.githubusercontent.com"
 }
@@ -12,15 +18,15 @@ resource "aws_iam_role" "ci_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "policy_attachment" {
-  for_each = toset(var.role_attach_policies)
-  
+  for_each = local.role_attach_policies
+
   policy_arn = each.value
   role       = aws_iam_role.ci_role.name
 }
 
 data "aws_iam_policy_document" "trust_policydoc" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
@@ -40,12 +46,12 @@ data "aws_iam_policy_document" "trust_policydoc" {
     condition {
       test     = "ForAllValues:StringEquals"
       variable = "token.actions.githubusercontent.com:iss"
-      values = ["https://token.actions.githubusercontent.com"]
+      values   = ["https://token.actions.githubusercontent.com"]
     }
     condition {
       test     = "ForAllValues:StringEquals"
       variable = "token.actions.githubusercontent.com:aud"
-      values = ["sts.amazonaws.com"]
+      values   = ["sts.amazonaws.com"]
     }
   }
 }

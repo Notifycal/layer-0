@@ -8,14 +8,14 @@ locals {
     "docs-internal",
     "static-landing",
     "backend",
-    "^environments$"    # strict match to avoid picking poc-environments
+    "^environments$" # strict match to avoid picking poc-environments
     # infra repo goes here
   ]
-  
+
   # Keep repos that match any regex in local.include_repos
   tf_repos = toset([
-    for repo in data.github_repositories.all_repos.names: repo if anytrue([
-      for included_tf_repo in local.include_tf_repos: length(regexall(included_tf_repo, repo)) > 0
+    for repo in data.github_repositories.all_repos.names : repo if anytrue([
+      for included_tf_repo in local.include_tf_repos : length(regexall(included_tf_repo, repo)) > 0
     ])
   ])
 }
@@ -25,15 +25,15 @@ locals {
 resource "github_actions_secret" "cicd_app_id" {
   for_each = local.tf_repos
 
-  repository       = each.value
-  secret_name      = "NOTIFYCAL_CICD_APP_ID"
-  plaintext_value  = data.aws_ssm_parameter.cicd_app_id.value
+  repository      = each.value
+  secret_name     = "NOTIFYCAL_CICD_APP_ID"
+  plaintext_value = data.aws_ssm_parameter.cicd_app_id.value
 }
 
 resource "github_actions_secret" "cicd_app_secret" {
   for_each = local.tf_repos
 
-  repository       = each.value
-  secret_name      = "NOTIFYCAL_CICD_APP_SECRET"
-  plaintext_value  = data.aws_ssm_parameter.cicd_app_secret.value
+  repository      = each.value
+  secret_name     = "NOTIFYCAL_CICD_APP_SECRET"
+  plaintext_value = data.aws_ssm_parameter.cicd_app_secret.value
 }

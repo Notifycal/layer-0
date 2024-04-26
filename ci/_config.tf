@@ -37,10 +37,10 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project = var.project
-      Region = var.aws_region
+      Project    = var.project
+      Region     = var.aws_region
       Managed-By = "Terragrunt"
-      Stack = var.stack
+      Stack      = var.stack
     }
   }
 }
