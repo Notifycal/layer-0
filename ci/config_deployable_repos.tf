@@ -6,11 +6,15 @@ data "aws_ssm_parameter" "cicd_app_secret" {
   name = "/providers/github/app/notifycal-ci-cd/app_secret"
 }
 
+data "aws_ssm_parameter" "cloudflare_api_token" {
+  name = "/providers/cloudflare/api_token"
+}
+
 locals {
   # this array can be used to do partial matches too. ie: `tofu-module-`
   include_repos = [
     "docs-internal",
-    "environments"
+    "^environments$" # strict match to avoid picking poc-environments
     # infra repo goes here
   ]
 
@@ -36,6 +40,14 @@ resource "github_actions_secret" "iam_role_for_ci" {
   repository      = each.value
   secret_name     = "AWS_IAM_ROLE_CI"
   plaintext_value = aws_iam_role.ci_role.arn
+}
+
+resource "github_actions_secret" "cloudflare_api_token" {
+  for_each = local.repos
+
+  repository      = each.value
+  secret_name     = "TF_VAR_cloudflare_api_token"
+  plaintext_value = data.aws_ssm_parameter.cloudflare_api_token.value
 }
 
 
