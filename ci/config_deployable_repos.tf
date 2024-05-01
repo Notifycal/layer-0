@@ -46,7 +46,7 @@ resource "github_actions_secret" "cloudflare_api_token" {
   for_each = local.repos
 
   repository      = each.value
-  secret_name     = "TF_VAR_cloudflare_api_token"
+  secret_name     = "CLOUDFLARE_API_TOKEN"
   plaintext_value = data.aws_ssm_parameter.cloudflare_api_token.value
 }
 
