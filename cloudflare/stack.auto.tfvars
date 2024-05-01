@@ -1,6 +1,6 @@
 aws_region = "eu-west-1"
-project = "notifycal"
-stack = "cloudflare"
+project    = "notifycal"
+stack      = "cloudflare"
 
 hosted_zones = [
   "notifycal.com",
