@@ -3,10 +3,6 @@ variable "cloudflare_api_token" {
   type      = string
 }
 
-variable "cloudflare_account_id" {
-  type = string
-}
-
 variable "hosted_zones" {
   type = set(string)
 }

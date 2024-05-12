@@ -1,7 +1,7 @@
 resource "cloudflare_zone" "zones" {
   for_each = var.hosted_zones
 
-  account_id = var.cloudflare_account_id
+  account_id = data.cloudflare_accounts.this.accounts[0].id
   zone       = each.value
 }
 
