@@ -47,13 +47,7 @@ resource "cloudflare_email_routing_settings" "notifycal_com" {
   enabled = "true"
 }
 
-# resource "cloudflare_email_routing_address" "notifycal_com" {
-#   for_each   = toset(formatlist("%s@notifycal.com", local.email_addresses))
-
-#   account_id = data.cloudflare_accounts.this.accounts[0].id
-#   email      = each.value
-# }
-
+# Redirect each address to notifycal@gmail.com
 resource "cloudflare_email_routing_rule" "notifycal_com" {
   for_each = toset(formatlist("%s@notifycal.com", local.email_addresses))
 
