@@ -8,6 +8,7 @@ locals {
     "docs-internal",
     "static-landing",
     "backend",
+    "frontend",
     "^environments$" # strict match to avoid picking poc-environments
     # infra repo goes here
   ]
