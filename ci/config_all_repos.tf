@@ -8,7 +8,7 @@ resource "github_dependabot_secret" "dependabot_pat" {
 }
 
 resource "github_branch_protection" "this" {
-  for_each = toset(data.github_repositories.all_repos.names)
+  for_each = var.enable_branch_protection ? toset(data.github_repositories.all_repos.names) : []
 
   repository_id = each.key
   pattern       = "main"
