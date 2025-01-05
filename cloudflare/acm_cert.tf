@@ -1,6 +1,5 @@
 module "aws_acm_star_notifycal_ssl_cert" {
-  # source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v0.2.0"
-  source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=disable-dns-validation"
+  source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v0.2.0"
 
   domain_name = "*.notifycal.com"
 
