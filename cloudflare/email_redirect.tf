@@ -38,7 +38,8 @@ resource "cloudflare_record" "email_mx" {
 resource "cloudflare_record" "email_txt" {
   zone_id =  cloudflare_zone.zones["notifycal.com"].id
   name    = "@"
-  content = "v=spf1 ${join(" ", formatlist("include:%s", local.txt_includes))} ~all"
+  # Double quoting otherwise Cloudflare complains in the UI
+  content = "\"v=spf1 ${join(" ", formatlist("include:%s", local.txt_includes))} ~all\""
   type    = "TXT"
 }
 
