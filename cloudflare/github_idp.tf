@@ -16,7 +16,7 @@ resource "cloudflare_access_identity_provider" "github" {
   type       = "github"
 
   config {
-    client_id     = data.aws_ssm_parameter.private_access_oauth_app_id.value
+    client_id = data.aws_ssm_parameter.private_access_oauth_app_id.value
     # TF always wants to update this client_secret :/
     client_secret = data.aws_ssm_parameter.private_access_oauth_app_secret.value
   }
