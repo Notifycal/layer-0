@@ -4,13 +4,13 @@
 
 locals {
   mx_records = {
-    "route1.mx.cloudflare.net": {
+    "route1.mx.cloudflare.net" : {
       priority = 20
     }
-    "route2.mx.cloudflare.net": {
+    "route2.mx.cloudflare.net" : {
       priority = 96
     }
-    "route3.mx.cloudflare.net": {
+    "route3.mx.cloudflare.net" : {
       priority = 75
     }
   }
@@ -28,17 +28,18 @@ locals {
 resource "cloudflare_record" "email_mx" {
   for_each = local.mx_records
 
-  zone_id =  cloudflare_zone.zones["notifycal.com"].id
-  name    = "@"
-  value   = each.key
+  zone_id  = cloudflare_zone.zones["notifycal.com"].id
+  name     = "@"
+  content  = each.key
   priority = each.value.priority
-  type    = "MX"
+  type     = "MX"
 }
 
 resource "cloudflare_record" "email_txt" {
-  zone_id =  cloudflare_zone.zones["notifycal.com"].id
+  zone_id = cloudflare_zone.zones["notifycal.com"].id
   name    = "@"
-  value   = "v=spf1 ${join(" ", formatlist("include:%s", local.txt_includes))} ~all"
+  # Double quoting otherwise Cloudflare complains in the UI
+  content = "\"v=spf1 ${join(" ", formatlist("include:%s", local.txt_includes))} ~all\""
   type    = "TXT"
 }
 
