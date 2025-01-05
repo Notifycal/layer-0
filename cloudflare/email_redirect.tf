@@ -30,7 +30,7 @@ resource "cloudflare_record" "email_mx" {
 
   zone_id =  cloudflare_zone.zones["notifycal.com"].id
   name    = "@"
-  value   = each.key
+  content = each.key
   priority = each.value.priority
   type    = "MX"
 }
@@ -38,7 +38,7 @@ resource "cloudflare_record" "email_mx" {
 resource "cloudflare_record" "email_txt" {
   zone_id =  cloudflare_zone.zones["notifycal.com"].id
   name    = "@"
-  value   = "v=spf1 ${join(" ", formatlist("include:%s", local.txt_includes))} ~all"
+  content = "v=spf1 ${join(" ", formatlist("include:%s", local.txt_includes))} ~all"
   type    = "TXT"
 }
 
