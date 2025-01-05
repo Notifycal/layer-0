@@ -5,10 +5,6 @@ module "aws_acm_star_notifycal_ssl_cert" {
   domain_name = "*.notifycal.com"
 
   create_dns_validation_records = false
-
-  providers = {
-    aws.acm = aws
-  }
 }
 
 resource "cloudflare_record" "dns_validate" {
