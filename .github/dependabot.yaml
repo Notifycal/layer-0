@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    # Workflow files stored in the default location of `.github/workflows`. (You don't need to
+    # specify `/.github/workflows` for `directory`. You can use `directory: "/"`.)
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    registries:
+      - notifycal-github
+
+  - package-ecosystem: 'terraform'
+    directories:
+      - '**/*'
+    schedule:
+      interval: 'weekly'
+    registries:
+      - notifycal-github
+
+registries:
+  npm-github-registry:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{secrets.DEPENDABOT_PAT}}
+
+  notifycal-github:
+    type: git
+    url: 'https://github.com/Notifycal'
+    token: ${{secrets.DEPENDABOT_PAT}}
