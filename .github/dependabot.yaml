@@ -16,7 +16,7 @@ updates:
       interval: 'weekly'
     registries:
       - notifycal-github
-
+ 
 registries:
   notifycal-github:
     type: git
