@@ -1,6 +1,6 @@
 locals {
   labels = {
-    "ci-pass" : {
+    "ci: pass" : {
       description = "Label added by CI for passing checks"
       color       = "00FF00"
     }
