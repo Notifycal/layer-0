@@ -4,6 +4,10 @@ locals {
       description = "Label added by CI for passing checks"
       color       = "00FF00"
     }
+    "ci: fail" : {
+      description = "Label added by CI for failing checks"
+      color       = "FF0000"
+    }
   }
 
   repos_labels = [
