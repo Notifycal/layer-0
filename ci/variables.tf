@@ -40,5 +40,5 @@ variable "dependabot_pat" {
 variable "enable_branch_protection" {
   type        = bool
   description = "Whether main branches will be protected in Github. Only works when using paid Github."
-  default     = false
+  default     = true
 }
