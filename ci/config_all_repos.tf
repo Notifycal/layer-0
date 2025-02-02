@@ -40,20 +40,3 @@ resource "github_dependabot_secret" "dependabot_pat" {
   secret_name     = "DEPENDABOT_PAT"
   plaintext_value = var.dependabot_pat
 }
-
-resource "github_branch_protection" "this" {
-  for_each = var.enable_branch_protection ? toset(data.github_repositories.all_repos.names) : []
-
-  repository_id = each.key
-  pattern       = "main"
-
-  required_pull_request_reviews {
-    dismiss_stale_reviews           = true
-    required_approving_review_count = 0
-  }
-
-  required_status_checks {
-    contexts = []
-    strict   = false
-  }
-}
