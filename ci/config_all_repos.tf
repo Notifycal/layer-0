@@ -23,6 +23,14 @@ resource "github_actions_secret" "cicd_app_secret" {
   plaintext_value = data.aws_ssm_parameter.cicd_app_secret.value
 }
 
+resource "github_actions_secret" "slack_bot_token" {
+  for_each = local.all_repos
+
+  repository      = each.value
+  secret_name     = "SLACK_BOT_TOKEN"
+  plaintext_value = data.aws_ssm_parameter.slack_bot_token.value
+}
+
 ## Need to create them as dependabot secrets too so dependabot can access them
 resource "github_dependabot_secret" "cicd_app_id" {
   for_each = local.all_repos
