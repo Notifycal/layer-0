@@ -19,23 +19,16 @@ locals {
   ]
 
   # Keep repos that match any regex in local.include_repos
-  repos = toset([
+  deployable_repos = toset([
     for repo in data.github_repositories.all_repos.names : repo if anytrue([
       for included_repo in local.include_repos : length(regexall(included_repo, repo)) > 0
     ])
   ])
-
-  include_branches = [
-    "main",
-    "master"
-  ]
-  # This list includes repo and branch
-  oidc_repo_list = [for repo in setproduct(local.repos, local.include_branches) : "${var.github_organization_name}/${repo[0]}:ref:refs/heads/${repo[1]}"]
 }
 
 ## AWS IAM role name for CI/CD
 resource "github_actions_secret" "iam_role_for_ci" {
-  for_each = local.repos
+  for_each = local.deployable_repos
 
   repository      = each.value
   secret_name     = "AWS_IAM_ROLE_CI"
@@ -43,7 +36,7 @@ resource "github_actions_secret" "iam_role_for_ci" {
 }
 
 resource "github_actions_secret" "cloudflare_api_token" {
-  for_each = local.repos
+  for_each = local.deployable_repos
 
   repository      = each.value
   secret_name     = "CLOUDFLARE_API_TOKEN"
@@ -53,5 +46,5 @@ resource "github_actions_secret" "cloudflare_api_token" {
 
 # Debugging purposes
 output "deployable_repos" {
-  value = toset(local.repos)
+  value = toset(local.deployable_repos)
 }
