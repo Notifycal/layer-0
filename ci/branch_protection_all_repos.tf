@@ -1,42 +1,40 @@
 locals {
   # Using objects for the check names so it's not affected by ordering
   repo_status_checks = {
-    frontend = {
-      actionlint = "actionlint"
-      build      = "build"
-      tofu       = "tofu"
-    }
     backend = {
-      actionlint = "actionlint"
-      build      = "build"
-      tofu       = "tofu"
-    }
-    shared = {
-      actionlint = "actionlint"
-      build      = "build"
-    }
-    static-landing = {
-      actionlint = "actionlint"
-      build      = "build"
-      tofu       = "tofu"
+      build = "build"
+      tofu  = "tofu"
     }
     docs-internal = {
-      actionlint = "actionlint"
       tofu       = "plan"
       build      = "build"
+    }
+    environments = {
+      tofu       = "dev"
+    }
+    frontend = {
+      # postflight = "postflight"
+      build = "build"
+      tofu  = "tofu"
     }
     gh-actions = {
       actionlint = "actionlint"
     }
-    tofu-module-static-website = {
-      tofu = "cd"
+    shared = {
+      build      = "build"
+    }
+    static-landing = {
+      build      = "build"
+      tofu       = "tofu"
     }
     tofu-module-acm-cert = {
       tofu = "cd"
     }
-    environments = {
-      actionlint = "actionlint"
-      tofu       = "dev"
+    tofu-module-static-website = {
+      tofu = "cd"
+    }
+    tofu-module-static-website = {
+      tofu = "cd"
     }
   }
 }
