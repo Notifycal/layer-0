@@ -42,7 +42,7 @@ locals {
 }
 
 resource "github_branch_protection" "this" {
-  for_each = var.enable_branch_protection ? toset(data.github_repositories.all_repos.names) : []
+  for_each = var.enable_branch_protection ? toset(local.non_poc_research_repos) : []
 
   repository_id = each.key
   pattern       = "main"
