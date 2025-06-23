@@ -37,10 +37,19 @@ locals {
       tofu = "cd"
     }
   }
+
+  non_automergeable_repos = [
+    "gh-actions",
+    "layer-0",
+    "template-tofu-module",
+  ]
 }
 
 resource "github_branch_protection" "this" {
-  for_each = var.enable_branch_protection ? toset(local.non_poc_research_repos) : []
+  for_each = (var.enable_branch_protection ?
+    setsubtract(toset(local.non_poc_research_repos), local.non_automergeable_repos) :
+    []
+  )
 
   repository_id = each.key
   pattern       = "main"
