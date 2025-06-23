@@ -2,6 +2,8 @@ locals {
   ignore_repos = [
     "event-viewer-ai-bolt.new",
     "event-viewer-ai-lovable.dev",
+    ".github-private",
+    "ai-wizard-onboarding"
   ]
   all_repos = setsubtract(data.github_repositories.all_repos.names, local.ignore_repos)
 }
