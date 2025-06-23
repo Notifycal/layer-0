@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "trust_policydoc" {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
       # TODO: Limit this to specific actions and branches
-      values = formatlist("repo:%s/%s:*", var.github_organization_name, local.repos)
+      values = formatlist("repo:%s/%s:*", var.github_organization_name, local.deployable_repos)
     }
 
     condition {
