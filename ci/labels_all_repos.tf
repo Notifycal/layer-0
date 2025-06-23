@@ -11,7 +11,7 @@ locals {
   }
 
   repos_labels = [
-    for pair in setproduct(toset(data.github_repositories.all_repos.names), keys(local.labels)) : {
+    for pair in setproduct(local.all_repos, keys(local.labels)) : {
       repository  = pair[0]
       name        = pair[1]
       color       = local.labels[pair[1]].color
