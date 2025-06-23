@@ -1,13 +1,3 @@
-locals {
-  ignore_repos = [
-    "event-viewer-ai-bolt.new",
-    "event-viewer-ai-lovable.dev",
-    ".github-private",
-    "ai-wizard-onboarding"
-  ]
-  all_repos = setsubtract(data.github_repositories.all_repos.names, local.ignore_repos)
-}
-
 ## Github App secrets. Required for issue handing stuff
 resource "github_actions_secret" "cicd_app_id" {
   for_each = toset(local.non_poc_research_repos)
@@ -26,7 +16,7 @@ resource "github_actions_secret" "cicd_app_secret" {
 }
 
 resource "github_actions_secret" "slack_bot_token" {
-  for_each = local.all_repos
+  for_each = toset(local.non_poc_research_repos)
 
   repository      = each.value
   secret_name     = "SLACK_BOT_TOKEN"

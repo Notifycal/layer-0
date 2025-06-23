@@ -19,8 +19,8 @@ data "github_repositories" "all_repos" {
   include_repo_id = true
 }
 
-output "all_org_repos" {
-  value = local.all_repos
+output "non_poc_research_repos" {
+  value = local.non_poc_research_repos
 }
 
 output "non_poc_research_repos" {
