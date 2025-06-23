@@ -55,6 +55,6 @@ resource "github_branch_protection" "this" {
   required_status_checks {
     # If the repo isn't defined in the list above, then won't enforce any checks
     contexts = try(toset(values(local.repo_status_checks[each.key])), [])
-    strict   = true
+    strict   = can(toset(values(local.repo_status_checks[each.key])))
   }
 }
