@@ -24,13 +24,6 @@ locals {
       for included_repo in local.include_repos : length(regexall(included_repo, repo)) > 0
     ])
   ])
-
-  include_branches = [
-    "main",
-    "master"
-  ]
-  # This list includes repo and branch
-  oidc_repo_list = [for repo in setproduct(local.repos, local.include_branches) : "${var.github_organization_name}/${repo[0]}:ref:refs/heads/${repo[1]}"]
 }
 
 ## AWS IAM role name for CI/CD
