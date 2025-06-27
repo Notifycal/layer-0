@@ -2,28 +2,30 @@ locals {
   # Using objects for the check names so it's not affected by ordering
   repo_status_checks = {
     backend = {
+      preflight = "preflight"
       build = "build"
       tofu  = "tofu"
     }
     docs-internal = {
+      changes  = "changes"
       tofu       = "plan"
       build      = "build"
     }
     environments = {
-      tofu       = "dev"
+      filter-envs = "filter-envs"
+      tofu       = "CI/CD: dev"
     }
     frontend = {
+      preflight = "preflight"
       # postflight = "postflight"
       build = "build"
       tofu  = "tofu"
-    }
-    gh-actions = {
-      actionlint = "actionlint"
     }
     shared = {
       build      = "build"
     }
     static-landing = {
+      preflight = "preflight"
       build      = "build"
       tofu       = "tofu"
     }
@@ -33,7 +35,7 @@ locals {
     tofu-module-static-website = {
       tofu = "cd"
     }
-    tofu-module-static-website = {
+    tofu-module-aws-slack-notify = {
       tofu = "cd"
     }
   }
