@@ -17,7 +17,6 @@ locals {
     }
     frontend = {
       preflight = "preflight"
-      # postflight = "postflight"
       build = "build"
       tofu  = "tofu"
     }
