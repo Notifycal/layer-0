@@ -9,6 +9,7 @@ locals {
     "ai-wizard-onboarding",
     "event-viewer-ai-bolt.new",
     "event-viewer-ai-lovable.dev",
+    "ai-documents"
   ]
   non_poc_research_repos = toset(setsubtract(data.github_repositories.all_repos.names, local.ignored_repos))
 }

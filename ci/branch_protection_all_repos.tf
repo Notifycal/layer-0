@@ -3,30 +3,30 @@ locals {
   repo_status_checks = {
     backend = {
       preflight = "preflight"
-      build = "build"
-      tofu  = "tofu"
+      build     = "build"
+      tofu      = "tofu"
     }
     docs-internal = {
-      changes  = "changes"
-      tofu       = "plan"
-      build      = "build"
+      changes = "changes"
+      tofu    = "plan"
+      build   = "build"
     }
     environments = {
       filter-envs = "filter-envs"
-      tofu       = "CI/CD: dev"
+      tofu        = "CI/CD: dev"
     }
     frontend = {
       preflight = "preflight"
-      build = "build"
-      tofu  = "tofu"
+      build     = "build"
+      tofu      = "tofu"
     }
     shared = {
-      build      = "build"
+      build = "build"
     }
     static-landing = {
       preflight = "preflight"
-      build      = "build"
-      tofu       = "tofu"
+      build     = "build"
+      tofu      = "tofu"
     }
     tofu-module-acm-cert = {
       tofu = "cd"

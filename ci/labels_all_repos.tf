@@ -1,12 +1,16 @@
 locals {
   labels = {
-    "ci: pass" : {
+    "ci: pass" = {
       description = "Label added by CI for passing checks"
       color       = "00FF00"
     }
-    "ci: fail" : {
+    "ci: fail" = {
       description = "Label added by CI for failing checks"
       color       = "FF0000"
+    }
+    "before-google" = {
+      description = "Needs to happen before we submit to Google for approval"
+      color       = "0000FF"
     }
   }
 
