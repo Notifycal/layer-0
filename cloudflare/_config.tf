@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket         = "tofu-state-notifycal-layer-0"
-    dynamodb_table = "tofu-lock-notifycal-layer-0"
+    bucket         = "tofu-state-global-notifycal-layer-0"
+    dynamodb_table = "tofu-lock-global-notifycal-layer-0"
     encrypt        = true
     key            = "cloudflare/terraform.tfstate"
     region         = "eu-west-1"
@@ -36,7 +36,13 @@ provider "cloudflare" {
 }
 
 provider "aws" {
+  # alias = "nonprod"
   region = var.aws_region
+
+  assume_role {
+    role_arn     = "arn:aws:iam::381492094204:role/impersonate-from-mgmt"
+    session_name = "tofu-nonprod"
+  }
 
   default_tags {
     tags = {
