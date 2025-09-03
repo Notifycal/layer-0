@@ -5,8 +5,6 @@ locals {
 }
 
 data "aws_iam_policy_document" "ci_trust" {
-  # provider = aws.nonprod
-
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRole", "sts:TagSession"]
@@ -24,8 +22,6 @@ data "aws_iam_policy_document" "ci_trust" {
 }
 
 resource "aws_iam_role" "ci_role" {
-  # provider = aws.nonprod
-
   name                 = var.role_name
   description          = format("${var.role_description}: %s", data.aws_iam_account_alias.current.account_alias)
   max_session_duration = var.role_max_session_duration
@@ -33,8 +29,6 @@ resource "aws_iam_role" "ci_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "policy_attachment" {
-  # provider = aws.nonprod
-
   for_each = local.role_attach_policies
 
   policy_arn = each.value
