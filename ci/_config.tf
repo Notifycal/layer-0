@@ -47,7 +47,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias = "nonprod"
+  alias  = "nonprod"
   region = var.aws_region
 
   assume_role {

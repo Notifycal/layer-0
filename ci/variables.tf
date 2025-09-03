@@ -10,7 +10,7 @@ variable "aws_target_account_ids" {
   type = map(string)
   default = {
     nonprod = "381492094204"
-    prod = "222261726252"
+    prod    = "222261726252"
   }
 }
 
@@ -25,7 +25,7 @@ variable "oidc_role_description" {
 }
 
 variable "ci_role_name" {
-  type = string
+  type    = string
   default = "ci-role"
 }
 

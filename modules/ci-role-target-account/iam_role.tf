@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "ci_trust" {
     actions = ["sts:AssumeRole", "sts:TagSession"]
     principals {
       type        = "AWS"
-      identifiers = [var.assume_role_role_arn] 
+      identifiers = [var.assume_role_role_arn]
     }
     # Optional hardening if you use AWS Organizations
     # condition {

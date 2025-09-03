@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "oidc_can_assume_targets_policydoc" {
 }
 
 resource "aws_iam_role_policy" "oidc_can_assume_targets" {
-  name = "allow-assume-target-ci"
-  role = aws_iam_role.github_oidc_mgmt.id
+  name   = "allow-assume-target-ci"
+  role   = aws_iam_role.github_oidc_mgmt.id
   policy = data.aws_iam_policy_document.oidc_can_assume_targets_policydoc.json
 }

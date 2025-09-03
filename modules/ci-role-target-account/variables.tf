@@ -1,15 +1,15 @@
 variable "role_name" {
-  type = string
+  type    = string
   default = "ci-role"
 }
 
 variable "role_description" {
-  type = string
+  type    = string
   default = "Role for Github Actions CI/CD"
 }
 
 variable "role_max_session_duration" {
-  type = number
+  type    = number
   default = 3600 # Hard limit, explicit
 
   validation {
@@ -24,6 +24,6 @@ variable "role_attach_policies" {
 }
 
 variable "assume_role_role_arn" {
-  type = string
+  type        = string
   description = "Role that is able to assume the CI/CD role created here"
 }
