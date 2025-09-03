@@ -26,6 +26,15 @@ locals {
   ])
 }
 
+## AWS IAM OIDC role name
+resource "github_actions_secret" "oidc_iam_role_for_ci" {
+  for_each = local.deployable_repos
+
+  repository      = each.value
+  secret_name     = "AWS_IAM_OIDC_ROLE_CI"
+  plaintext_value = aws_iam_role.github_oidc_mgmt.arn
+}
+
 ## AWS IAM role name for CI/CD
 resource "github_actions_secret" "iam_role_for_ci" {
   for_each = local.deployable_repos

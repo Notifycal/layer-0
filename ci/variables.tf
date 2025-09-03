@@ -6,14 +6,32 @@ variable "github_thumbprints" {
   ]
 }
 
-variable "role_name" {
-  type    = string
-  default = "ci-role-oidc"
+variable "aws_target_account_ids" {
+  type = map(string)
+  default = {
+    nonprod = "381492094204"
+    prod = "222261726252"
+  }
 }
 
-variable "role_description" {
+variable "oidc_role_name" {
   type    = string
-  default = "Role used by Github Actions to interact with AWS"
+  default = "github-oidc-mgmt"
+}
+
+variable "oidc_role_description" {
+  type    = string
+  default = "Entry role for GitHub OIDC in management account"
+}
+
+variable "ci_role_name" {
+  type = string
+  default = "ci-role"
+}
+
+variable "ci_role_description" {
+  type    = string
+  default = "Role for Github Actions CI/CD"
 }
 
 variable "role_max_session_duration" {

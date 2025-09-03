@@ -1,38 +1,10 @@
-locals {
-  role_attach_policies = merge(var.role_attach_policies, {
-    iam_no_user_nor_group_access = aws_iam_policy.ci_iam_access.arn
-  })
-}
-
 resource "aws_iam_openid_connect_provider" "github" {
-  provider = aws.nonprod
-
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = var.github_thumbprints
   url             = "https://token.actions.githubusercontent.com"
 }
 
-resource "aws_iam_role" "ci_role" {
-  provider = aws.nonprod
-
-  name                 = var.role_name
-  description          = var.role_description
-  max_session_duration = var.role_max_session_duration
-  assume_role_policy   = data.aws_iam_policy_document.trust_policydoc.json
-}
-
-resource "aws_iam_role_policy_attachment" "policy_attachment" {
-  provider = aws.nonprod
-
-  for_each = local.role_attach_policies
-
-  policy_arn = each.value
-  role       = aws_iam_role.ci_role.name
-}
-
 data "aws_iam_policy_document" "trust_policydoc" {
-  provider = aws.nonprod
-
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRoleWithWebIdentity"]
@@ -62,4 +34,28 @@ data "aws_iam_policy_document" "trust_policydoc" {
       values   = ["sts.amazonaws.com"]
     }
   }
+}
+
+resource "aws_iam_role" "github_oidc_mgmt" {
+  name                 = var.oidc_role_name
+  description          = var.oidc_role_description
+  max_session_duration = var.role_max_session_duration
+  assume_role_policy   = data.aws_iam_policy_document.trust_policydoc.json
+}
+
+data "aws_iam_policy_document" "oidc_can_assume_targets_policydoc" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole",
+      "sts:TagSession"
+    ]
+    resources = formatlist("arn:aws:iam::%s:role/${var.ci_role_name}", toset(values(var.aws_target_account_ids)))
+  }
+}
+
+resource "aws_iam_role_policy" "oidc_can_assume_targets" {
+  name = "allow-assume-target-ci"
+  role = aws_iam_role.github_oidc_mgmt.id
+  policy = data.aws_iam_policy_document.oidc_can_assume_targets_policydoc.json
 }
