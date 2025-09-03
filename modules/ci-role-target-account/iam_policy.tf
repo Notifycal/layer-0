@@ -1,5 +1,5 @@
 data "aws_iam_policy_document" "ci_iam_access" {
-  provider = aws.nonprod
+  # provider = aws.nonprod
 
   statement {
     sid       = "IAMFullAccess"
@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "ci_iam_access" {
 }
 
 resource "aws_iam_policy" "ci_iam_access" {
-  provider = aws.nonprod
+  # provider = aws.nonprod
 
   name   = "notifycal-ci-iam-access"
   path   = "/"

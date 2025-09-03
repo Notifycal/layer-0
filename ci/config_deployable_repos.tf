@@ -26,7 +26,7 @@ locals {
   ])
 }
 
-## AWS IAM OIDC role name
+## AWS IAM OIDC role arn
 resource "github_actions_secret" "oidc_iam_role_for_ci" {
   for_each = local.deployable_repos
 
@@ -35,13 +35,13 @@ resource "github_actions_secret" "oidc_iam_role_for_ci" {
   plaintext_value = aws_iam_role.github_oidc_mgmt.arn
 }
 
-## AWS IAM role name for CI/CD
+## AWS IAM role arn for CI/CD
 resource "github_actions_secret" "iam_role_for_ci" {
   for_each = local.deployable_repos
 
   repository      = each.value
   secret_name     = "AWS_IAM_ROLE_CI"
-  plaintext_value = aws_iam_role.ci_role.arn
+  plaintext_value = module.cicd_role_nonprod.role_arn
 }
 
 resource "github_actions_secret" "cloudflare_api_token" {

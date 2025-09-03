@@ -5,14 +5,14 @@ locals {
 }
 
 data "aws_iam_policy_document" "ci_trust" {
-  provider = aws.nonprod
+  # provider = aws.nonprod
 
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRole", "sts:TagSession"]
     principals {
       type        = "AWS"
-      identifiers = [aws_iam_role.github_oidc_mgmt.arn] 
+      identifiers = [var.assume_role_role_arn] 
     }
     # Optional hardening if you use AWS Organizations
     # condition {
@@ -24,16 +24,16 @@ data "aws_iam_policy_document" "ci_trust" {
 }
 
 resource "aws_iam_role" "ci_role" {
-  provider = aws.nonprod
+  # provider = aws.nonprod
 
-  name                 = var.ci_role_name
-  description          = var.ci_role_description
+  name                 = var.role_name
+  description          = format("${var.role_description}: %s", data.aws_iam_account_alias.current.account_alias)
   max_session_duration = var.role_max_session_duration
   assume_role_policy   = data.aws_iam_policy_document.ci_trust.json
 }
 
 resource "aws_iam_role_policy_attachment" "policy_attachment" {
-  provider = aws.nonprod
+  # provider = aws.nonprod
 
   for_each = local.role_attach_policies
 

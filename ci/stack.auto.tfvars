@@ -1,6 +1,6 @@
 aws_region = "eu-west-1"
 project    = "notifycal"
 stack      = "ci"
-role_attach_policies = {
+ci_role_attach_policies = {
   PowerUserAccess = "arn:aws:iam::aws:policy/PowerUserAccess"
 }

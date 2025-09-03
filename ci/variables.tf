@@ -45,7 +45,7 @@ variable "role_max_session_duration" {
   }
 }
 
-variable "role_attach_policies" {
+variable "ci_role_attach_policies" {
   type        = map(string)
   description = "Map of IAM Policy ARNs to attach to the CI role"
 }
