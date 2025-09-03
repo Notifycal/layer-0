@@ -33,7 +33,21 @@ variable "stack" {
 }
 
 provider "aws" {
-  # alias = "nonprod"
+  # MGMT
+  region = var.aws_region
+
+  default_tags {
+    tags = {
+      Project    = var.project
+      Region     = var.aws_region
+      Managed-By = "Terragrunt"
+      Stack      = var.stack
+    }
+  }
+}
+
+provider "aws" {
+  alias = "nonprod"
   region = var.aws_region
 
   assume_role {
@@ -45,11 +59,13 @@ provider "aws" {
     tags = {
       Project    = var.project
       Region     = var.aws_region
-      Managed-By = "OpenTofu"
+      Managed-By = "Terragrunt"
       Stack      = var.stack
     }
   }
 }
+
+
 
 provider "github" {
   owner = var.github_organization_name
