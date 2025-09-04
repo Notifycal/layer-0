@@ -7,7 +7,10 @@ variable "github_thumbprints" {
 }
 
 variable "aws_target_account_ids" {
-  type = map(string)
+  type = object({
+    nonprod = string
+    prod    = string
+  })
   default = {
     nonprod = "381492094204"
     prod    = "222261726252"

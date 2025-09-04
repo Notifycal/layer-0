@@ -40,7 +40,7 @@ provider "aws" {
     tags = {
       Project    = var.project
       Region     = var.aws_region
-      Managed-By = "Terragrunt"
+      Managed-By = "OpenTofu"
       Stack      = var.stack
     }
   }
@@ -59,7 +59,7 @@ provider "aws" {
     tags = {
       Project    = var.project
       Region     = var.aws_region
-      Managed-By = "Terragrunt"
+      Managed-By = "OpenTofu"
       Stack      = var.stack
     }
   }
@@ -78,13 +78,11 @@ provider "aws" {
     tags = {
       Project    = var.project
       Region     = var.aws_region
-      Managed-By = "Terragrunt"
+      Managed-By = "OpenTofu"
       Stack      = var.stack
     }
   }
 }
-
-
 
 provider "github" {
   owner = var.github_organization_name
