@@ -4,6 +4,13 @@ resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
 }
 
+locals {
+  all_deployable_repos = tolist(setunion(
+    local.nonprod_deployable_repos,
+    local.prod_deployable_repos
+  ))
+}
+
 data "aws_iam_policy_document" "trust_policydoc" {
   statement {
     effect  = "Allow"
@@ -20,7 +27,7 @@ data "aws_iam_policy_document" "trust_policydoc" {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
       # TODO: Limit this to specific actions and branches
-      values = formatlist("repo:%s/%s:*", var.github_organization_name, local.deployable_repos)
+      values = formatlist("repo:%s/%s:*", var.github_organization_name, local.all_deployable_repos)
     }
 
     condition {
