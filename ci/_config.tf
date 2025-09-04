@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket         = "tofu-state-notifycal-layer-0"
-    dynamodb_table = "tofu-lock-notifycal-layer-0"
+    bucket         = "tofu-state-global-notifycal-layer-0"
+    dynamodb_table = "tofu-lock-global-notifycal-layer-0"
     encrypt        = true
     key            = "ci/terraform.tfstate"
     region         = "eu-west-1"
@@ -33,13 +33,52 @@ variable "stack" {
 }
 
 provider "aws" {
+  # MGMT
   region = var.aws_region
 
   default_tags {
     tags = {
       Project    = var.project
       Region     = var.aws_region
-      Managed-By = "Terragrunt"
+      Managed-By = "OpenTofu"
+      Stack      = var.stack
+    }
+  }
+}
+
+provider "aws" {
+  alias  = "nonprod"
+  region = var.aws_region
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${var.aws_target_account_ids["nonprod"]}:role/impersonate-from-mgmt"
+    session_name = "tofu-layer-0-nonprod"
+  }
+
+  default_tags {
+    tags = {
+      Project    = var.project
+      Region     = var.aws_region
+      Managed-By = "OpenTofu"
+      Stack      = var.stack
+    }
+  }
+}
+
+provider "aws" {
+  alias  = "prod"
+  region = var.aws_region
+
+  assume_role {
+    role_arn     = "arn:aws:iam::${var.aws_target_account_ids["prod"]}:role/impersonate-from-mgmt"
+    session_name = "tofu-layer-0-prod"
+  }
+
+  default_tags {
+    tags = {
+      Project    = var.project
+      Region     = var.aws_region
+      Managed-By = "OpenTofu"
       Stack      = var.stack
     }
   }

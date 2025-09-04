@@ -13,7 +13,6 @@ locals {
     "gh-actions"
   ]
 
-  # Keep repos that match any regex in local.include_repos
   tf_repos = toset([
     for repo in data.github_repositories.all_repos.names : repo if anytrue([
       for included_tf_repo in local.include_tf_repos : length(regexall(included_tf_repo, repo)) > 0

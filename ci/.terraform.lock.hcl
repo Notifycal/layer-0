@@ -3,7 +3,7 @@
 
 provider "registry.opentofu.org/hashicorp/aws" {
   version     = "6.0.0"
-  constraints = "~> 6.0"
+  constraints = ">= 6.0.0, ~> 6.0"
   hashes = [
     "h1:1/CeThA/HYnTU2Zm4PEZA4735jHfP7L6LHOUl3+yFwE=",
     "h1:6q9f4g92JlbaNWWOcviq2ZXugvrpTs0BKVWvMe9AZks=",
@@ -30,6 +30,7 @@ provider "registry.opentofu.org/integrations/github" {
   version     = "6.2.0"
   constraints = "~> 6.0"
   hashes = [
+    "h1:FdWqFyRBP1NkVVE2ZTbk2HdQ9FCuQ7Iiw+517sZUjOc=",
     "h1:a6d0+g28W72xkGNSzbMLApNMtwT7uhvO2Hc45ghON4U=",
     "zh:1206dd543cbfb82510f3de8cebc60b3b53803ed2e58b155beae60ad47375da92",
     "zh:1b37f423227697a8dfedd12552826f22153c0125233caf2ab3426a968db63cfc",

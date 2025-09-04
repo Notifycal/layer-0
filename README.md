@@ -1,24 +1,18 @@
-# infra
+# Layer 0 - Foundational Resources
+
+This repository contains foundational infrastructure resources for the Notifycal project, managed with OpenTofu.
+
+These are resources that don't fit at the environment level, either because their cardinality is at the AWS account level, effectively covering multiple environments (like production and non-production), or because their creation during a typical environment deployment would be too time-consuming.
 
 
+### [CI](./ci/)
 
-## Cloud providers
+Manages the GitHub organization and CI/CD infrastructure on AWS. This includes the centralized configuration of repositories, branch protection rules, and a secure OIDC authentication flow for GitHub Actions to access different AWS accounts.
 
-- [Supabase](https://supabase.com)
-- AWS
+For more details, see the [CI README](./ci/README.md).
 
-## Stacks
+### [Cloudflare](./cloudflare/)
 
+Manages Cloudflare resources for the `notifycal.com` domain. This includes DNS records, ACM SSL certificate validation, a GitHub Identity Provider (IDP) for developer authentication, Google domain verification, and email redirection rules.
 
-## Setup
-
-1. Install [tofuutils/tenv](https://github.com/tofuutils/tenv).
-
-**TODO**: Cloning the repo from scratch (Sergio). Use tenv to install Tofu and TG versions relying on the existing files
-
-1. Create a Supabase [access token](https://supabase.com/dashboard/account/tokens).
-1. `export TF_VAR_supabase_access_token=<redacted>`
-1. Run `tg init` from the stack folder. Then run `tg plan/apply` 
-
-
-You might also want to install the `supabase` [CLI tool](https://supabase.com/docs/guides/cli/getting-started) and its [autocompletion](https://supabase.com/docs/reference/cli/supabase-completion).
+For more details, see the [Cloudflare README](./cloudflare/README.md).

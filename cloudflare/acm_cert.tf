@@ -1,18 +1,36 @@
-module "aws_acm_star_notifycal_ssl_cert" {
-  source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v0.2.0"
+module "aws_acm_star_notifycal_ssl_cert_nonprod" {
+  source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v0.3.0"
+
+  providers = {
+    aws = aws.nonprod
+  }
 
   domain_name = "*.notifycal.com"
-
-  create_dns_validation_records = false
+  dns_validation_config = {
+    vendor = "cloudflare"
+    ttl    = 1
+    cloudflare = {
+      zone_id = cloudflare_zone.zones["notifycal.com"].id
+      proxied = false
+    }
+  }
 }
 
-resource "cloudflare_record" "dns_validate" {
-  for_each = module.aws_acm_star_notifycal_ssl_cert.certificate_validation_dns_records
 
-  zone_id = cloudflare_zone.zones["notifycal.com"].id
+module "aws_acm_star_notifycal_ssl_cert_prod" {
+  source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v0.3.0"
 
-  name    = each.value.name
-  content = each.value.record
-  type    = each.value.type
-  proxied = false
+  providers = {
+    aws = aws.prod
+  }
+
+  domain_name = "*.notifycal.com"
+  dns_validation_config = {
+    vendor = "cloudflare"
+    ttl    = 1
+    cloudflare = {
+      zone_id = cloudflare_zone.zones["notifycal.com"].id
+      proxied = false
+    }
+  }
 }
