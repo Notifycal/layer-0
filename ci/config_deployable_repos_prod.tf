@@ -34,7 +34,7 @@ resource "github_actions_secret" "prod_iam_role_for_ci" {
 
   repository      = each.value
   secret_name     = "AWS_IAM_ROLE_CI_PROD"
-  plaintext_value = module.cicd_role_nonprod.role_arn
+  plaintext_value = module.cicd_role_prod.role_arn
 }
 
 # Debugging purposes
