@@ -13,7 +13,7 @@ locals {
     }
     environments = {
       filter-envs = "filter-envs"
-      tofu        = "postflight"
+      postflight  = "postflight"
     }
     frontend = {
       preflight = "preflight"
