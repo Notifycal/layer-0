@@ -58,8 +58,6 @@ resource "cloudflare_ruleset" "redirect_to_notifycal_com" {
           status_code           = 301
           preserve_query_string = true
           target_url = {
-            # Conserva path; query la preserva el flag
-            # expression = "concat(\"https://${label == "@" ? var.main_zone : "${label}.${var.main_zone}"}, http.request.uri.path\")"
             expression = format(
               "concat(\"https://%s\", http.request.uri.path)",
               label == "@" ? var.main_zone : format("%s.%s", label, var.main_zone)
@@ -70,67 +68,4 @@ resource "cloudflare_ruleset" "redirect_to_notifycal_com" {
       }
     }
   ]
-
-  # rules = concat([{
-  #   enabled     = true
-  #   action      = "redirect"
-  #   description = "Redirect ${each.value.name} -> ${var.main_zone}"
-  #   expression  = "(http.host eq \"${each.value.name}\" or http.host eq \"www.${each.value.name}\")"
-
-  #   action_parameters = {
-  #     from_value = {
-  #       status_code = 301
-  #       preserve_query_string = true
-  #       target_url  = {
-  #         expression = "concat(\"https://${var.main_zone}\", http.request.uri.path)"
-  #       }
-  #     }
-  #   }
-  # }],
-  # [
-  #     for s in var.subdomains : {
-  #       enabled     = true
-  #       action      = "redirect"
-  #       description = "${s}.${each.value.name} -> ${s}.${var.main_zone}"
-  #       expression  = "http.host eq \"${s}.${each.value.name}\""
-  #       action_parameters = {
-  #         from_value = {
-  #           status_code           = 301
-  #           preserve_query_string = true
-  #           target_url = {
-  #             expression = "concat(\"https://${s}.${var.main_zone}\", http.request.uri.path)"
-  #           }
-  #         }
-  #       }
-  #     }
-  #   ]
 }
-
-# "rules": [
-#       {
-#         "action": "redirect",
-#         "action_parameters": {
-#           "from_value": {
-#             "preserve_query_string": true,
-#             "status_code": 301,
-#             "target_url": {
-#               "expression": "concat(\"https://notifycal.com\", http.request.uri.path)"
-#             }
-#           }
-#         },
-#         "description": "Redirect to notifycal.com",
-#         "enabled": true,
-#         "expression": "(http.host eq \"notifycal.es\")",
-#         "id": "2ecfd797f1ed4062b770f4172137e4d1",
-#         "last_updated": "2025-09-12T13:24:14.140509Z",
-#         "ref": "2ecfd797f1ed4062b770f4172137e4d1",
-#         "version": "1"
-#       }
-#     ],
-#     "version": "1"
-#   },
-
-
-# output "foobar" {
-#   value = local.extra_records
-# }
