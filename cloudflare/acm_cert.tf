@@ -1,5 +1,5 @@
 module "aws_acm_star_notifycal_ssl_cert_nonprod" {
-  source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v0.3.0"
+  source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v1.0.0"
 
   providers = {
     aws = aws.nonprod
@@ -18,7 +18,7 @@ module "aws_acm_star_notifycal_ssl_cert_nonprod" {
 
 
 module "aws_acm_star_notifycal_ssl_cert_prod" {
-  source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v0.3.0"
+  source = "git@github.com:Notifycal/tofu-module-acm-cert.git?ref=v1.0.0"
 
   providers = {
     aws = aws.prod
