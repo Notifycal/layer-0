@@ -8,13 +8,13 @@ locals {
   }
 }
 
-resource "cloudflare_record" "google_domain_verification" {
+resource "cloudflare_dns_record" "google_domain_verification" {
   for_each = local.google_verification_codes
 
   zone_id = cloudflare_zone.zones[each.key].id
   name    = each.key
   type    = "TXT"
-  content = "google-site-verification=${each.value}"
+  content = "\"google-site-verification=${each.value}\""
   ttl     = 300
   comment = "Google domain verification for ${each.key}"
 }
