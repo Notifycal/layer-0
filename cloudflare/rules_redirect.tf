@@ -1,6 +1,4 @@
 locals {
-  secondary_zones = { for k, v in cloudflare_zone.zones : k => v if k != var.main_zone }
-
   subdomains = ["@", "private"]
 
   extra_records = {
