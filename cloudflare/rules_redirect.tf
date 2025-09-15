@@ -1,6 +1,8 @@
 locals {
   subdomains = ["@", "private"]
 
+  # Cloudflare needs a proxied CNAME so the redirections work, but the actual content of the CNAME
+  # record is irrelevant
   extra_records = {
     for item in flatten([
       for z in cloudflare_zone.zones : [
@@ -55,6 +57,9 @@ resource "cloudflare_ruleset" "all_redirects" {
   rules = concat(
     [
       # www rules only for landing, no private area
+      # https://www.notifycal.com -> https://notifycal.com
+      # https://www.notifycal.es -> https://notifycal.com
+      # https://www.notifical.es -> https://notifical.com
       for label in local.subdomains : {
         enabled = true
         action  = "redirect"
@@ -83,6 +88,10 @@ resource "cloudflare_ruleset" "all_redirects" {
     ],
     [
       # .es -> .com rules only in secondary (non-main) zones
+      # https://notifycal.es -> https://notifycal.com
+      # https://private.notifycal.es -> https://private.notifycal.com
+      # https://notifical.es -> https://notifical.com
+      # https://private.notifical.es -> https://private.notifical.com
       for label in local.subdomains : {
         enabled = true
         action  = "redirect"
