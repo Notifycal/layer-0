@@ -10,7 +10,7 @@ module "aws_acm_star_notifycal_ssl_cert_nonprod" {
     vendor = "cloudflare"
     ttl    = 1
     cloudflare = {
-      zone_id = cloudflare_zone.zones["notifycal.com"].id
+      zone_id = cloudflare_zone.zones[var.main_zone].id
       proxied = false
     }
   }
@@ -24,12 +24,12 @@ module "aws_acm_star_notifycal_ssl_cert_prod" {
     aws = aws.prod
   }
 
-  domain_name = "*.notifycal.com"
+  domain_name = "*.${var.main_zone}"
   dns_validation_config = {
     vendor = "cloudflare"
     ttl    = 1
     cloudflare = {
-      zone_id = cloudflare_zone.zones["notifycal.com"].id
+      zone_id = cloudflare_zone.zones[var.main_zone].id
       proxied = false
     }
   }

@@ -3,6 +3,11 @@ variable "cloudflare_api_token" {
   type      = string
 }
 
+variable "main_zone" {
+  type        = string
+  description = "Main zone/domain of the app"
+}
+
 variable "hosted_zones" {
   type = set(string)
 }

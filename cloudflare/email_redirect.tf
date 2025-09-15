@@ -29,7 +29,7 @@ locals {
 resource "cloudflare_dns_record" "email_mx" {
   for_each = local.mx_records
 
-  zone_id  = cloudflare_zone.zones["notifycal.com"].id
+  zone_id  = cloudflare_zone.zones[var.main_zone].id
   name     = "@"
   content  = each.key
   priority = each.value.priority
@@ -38,7 +38,7 @@ resource "cloudflare_dns_record" "email_mx" {
 }
 
 resource "cloudflare_dns_record" "email_txt" {
-  zone_id = cloudflare_zone.zones["notifycal.com"].id
+  zone_id = cloudflare_zone.zones[var.main_zone].id
   name    = "@"
   # Double quoting otherwise Cloudflare complains in the UI
   content = "\"v=spf1 ${join(" ", formatlist("include:%s", local.txt_includes))} ~all\""
@@ -47,14 +47,14 @@ resource "cloudflare_dns_record" "email_txt" {
 }
 
 resource "cloudflare_email_routing_settings" "notifycal_com" {
-  zone_id = cloudflare_zone.zones["notifycal.com"].id
+  zone_id = cloudflare_zone.zones[var.main_zone].id
 }
 
 # Redirect each address to notifycal@gmail.com
 resource "cloudflare_email_routing_rule" "notifycal_com" {
   for_each = toset(formatlist("%s@notifycal.com", local.email_addresses))
 
-  zone_id = cloudflare_zone.zones["notifycal.com"].id
+  zone_id = cloudflare_zone.zones[var.main_zone].id
   name    = each.key
   enabled = true
 

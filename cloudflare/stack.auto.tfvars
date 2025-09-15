@@ -7,3 +7,5 @@ hosted_zones = [
   "notifycal.es",
   "notifical.es"
 ]
+
+main_zone = "notifycal.com"
