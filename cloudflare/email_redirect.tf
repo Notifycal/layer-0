@@ -22,7 +22,7 @@ locals {
   # The addresses here need to be enabled in Gmail settings too
   # Settings > See all settings > Accounts and Import > Send mail as
   email_addresses = [
-    "info", "admin", "terminos", "soporte", "baja", "privacidad", "terms", "support", "unsubscribe", "privacy", "sergio.martin", "daniel.siguero"
+    "info", "admin", "terminos", "soporte", "baja", "privacidad", "terms", "support", "unsubscribe", "privacy", "sergio.martin", "daniel.siguero", "colaboraciones", "contrataciones"
   ]
 }
 
